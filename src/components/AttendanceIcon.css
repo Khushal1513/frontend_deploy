@@ -1,59 +1,150 @@
 .attendance-icon {
-  width: 120px;
-  height: 120px;
-
+  /* Default visual reset - actual placement controlled by modifier classes */
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
   overflow: hidden;
   background: #fff;
-
-  border: 0.5px solid rgba(0, 0, 0, 0.35);
-
-  display: flex;
+  border: none;
   align-items: center;
   justify-content: center;
-
-  /* Depth + polish */
-  box-shadow:
-    0 6px 14px rgba(0, 0, 0, 0.14),
-    inset 0 1px 1px rgba(255, 255, 255, 0.6);
-
-  position: relative;
+  flex: 0 0 auto;
+  margin: 0;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  padding: 0;
+  animation: lubdub 4.5s ease-in-out infinite;
 }
 
+/* Fixed placement (default). Use CSS variables to tune offsets per layout. */
+.attendance-fixed {
+  position: fixed;
+  top: var(--attendance-top, calc(env(safe-area-inset-top, 0px) + var(--navbar-height, 64px) + 55px));
+  right: var(--attendance-right, calc(env(safe-area-inset-right, 0px) + 16px));
+  z-index: var(--attendance-z, 9999);
+}
 
-/* Image is intentionally oversized & centered */
+/* Inline placement: the icon flows with document layout (useful inside headers) */
+.attendance-inline {
+  position: relative;
+  top: auto;
+  right: auto;
+  margin-left: 0.5rem;
+}
+
+/* Image is intentionally oversized & centered (tweaked for better centering) */
 .attendance-logo-img {
-  width: 155%;
-  height: 155%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 150%;
+  height: 150%;
   object-fit: cover;
-
-  /* move image slightly DOWN & zoom more */
-  transform: translateY(9%) scale(1.1);
-
+  object-position: center;
+  transform: translate(-50%, -50%);
   pointer-events: none;
 }
 
-
-
-
 /* Optional: subtle hover polish (no animation) */
 .attendance-icon:hover {
-  transform: translateY(-2px);
-  transition: transform 0.25s ease;
   cursor: pointer;
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-  .attendance-icon {
-    width: 100px;
-    height: 100px;
+/* Responsive: Desktop/laptop */
+@media (min-width: 1024px) {
+  .attendance-icon.attendance-fixed {
+    width: var(--attendance-desktop-size, 32px);
+    height: var(--attendance-desktop-size, 32px);
+    top: var(--attendance-desktop-top, calc(env(safe-area-inset-top, 0px) + 12px));
+    right: var(--attendance-desktop-right, calc(env(safe-area-inset-right, 0px) + 12px));
+    z-index: var(--attendance-desktop-z, 99999);
   }
 }
 
+/* Tablet range */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .attendance-icon.attendance-fixed {
+    width: var(--attendance-tablet-size, 30px);
+    height: var(--attendance-tablet-size, 30px);
+    top: var(--attendance-tablet-top, calc(env(safe-area-inset-top, 0px) + var(--navbar-height, 64px) + 18px));
+    right: var(--attendance-tablet-right, calc(env(safe-area-inset-right, 0px) + 12px));
+  }
+  .attendance-logo-img {
+    width: 190%;
+    height: 190%;
+  }
+}
+
+/* Mobile */
 @media (max-width: 480px) {
-  .attendance-icon {
-    width: 80px;
-    height: 80px;
+  .attendance-icon.attendance-fixed {
+    width: var(--attendance-mobile-size, 36px);
+    height: var(--attendance-mobile-size, 36px);
+    top: var(--attendance-mobile-top, calc(env(safe-area-inset-top, 0px) + var(--navbar-height, 64px) + 40px));
+    right: var(--attendance-mobile-right, calc(env(safe-area-inset-right, 0px) + 16px));
+  }
+  .attendance-logo-img {
+    width: 200%;
+    height: 200%;
+  }
+}
+
+/* Large screens (iPad Pro, desktops) */
+@media (min-width: 1024px) {
+  .attendance-icon.attendance-fixed {
+    width: 42px;
+    height: 42px;
+    top: 90px;   /* move slightly down but still visible */
+    right: 20px;
+    z-index: 99999;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+  .attendance-icon.attendance-fixed {
+    width: 38px;
+    height: 38px;
+    top: 85px;
+    right: 18px;
+  }
+}
+
+
+
+/* Remove default focus/active outline and tap highlight when clicked */
+.attendance-icon:focus,
+.attendance-icon:active,
+.attendance-icon *:focus,
+.attendance-icon *:active {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Prevent mobile tap highlight */
+.attendance-icon,
+.attendance-icon img {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* lub-dub keyframes: subtle double-beat pulse */
+@keyframes lubdub {
+  0% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+  18% {
+    transform: translateY(0) scale(1.08);
+    box-shadow: 0 8px 18px rgba(0,0,0,0.12);
+  }
+  30% {
+    transform: translateY(0) scale(0.96);
+    box-shadow: 0 3px 8px rgba(0,0,0,0.06);
+  }
+  60% {
+    transform: translateY(0) scale(1.04);
+    box-shadow: 0 6px 14px rgba(0,0,0,0.10);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
   }
 }

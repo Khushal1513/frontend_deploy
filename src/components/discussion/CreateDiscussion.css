@@ -45,15 +45,17 @@
 }
 
 .form-group textarea {
-  min-height: 300px;
-  resize: vertical;
+  min-height: 80px; /* start smaller */
+  max-height: 600px;
+  resize: none; /* auto-resize via JS */
+  overflow-y: auto;
 }
 
 .form-group input:focus,
 .form-group textarea:focus {
   outline: none;
-  border-color: #4CAF50;
-  box-shadow: 0 0 4px rgba(76, 175, 80, 0.2);
+  border-color: var(--accent);
+  box-shadow: 0 0 6px rgba(244, 179, 12, 0.18);
 }
 
 .file-upload-area {
@@ -207,7 +209,14 @@
 }
 
 .back-btn:hover {
-  background-color: #e5e7eb;
+  background-color: #d99903;
+  color: #fff;
+}
+
+/* Ensure discussion back button hover matches choose-file hover */
+.create-discussion-container .back-btn:hover {
+  background-color: #d99903 !important;
+  color: #fff !important;
 }
 
 .error-banner {
@@ -291,8 +300,8 @@
   align-items: center;
   gap: 0.5rem;
   padding: 0.625rem 1.25rem;
-  background-color: #3b82f6;
-  color: white;
+  background-color: var(--accent);
+  color: var(--brown);
   border-radius: 0.375rem;
   cursor: pointer;
   font-size: 0.875rem;
@@ -302,7 +311,8 @@
 }
 
 .file-upload-btn:hover {
-  background-color: #2563eb;
+  background-color: #d99903;
+  color: #fff;
 }
 
 .file-upload-btn:disabled {

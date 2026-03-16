@@ -102,14 +102,14 @@ export default function Home({ onSectionChange, isLoggedIn, onLoginRequired }) {
     <div className="min-h-screen custom-beige relative">
 
       {/* ===== FLOATING ATTENDANCE BUTTON ===== */}
-     <div className="fixed right-4 bottom-48 md:bottom-auto md:top-1/2 md:-translate-y-1/2 md:right-8 z-40">
+    <div className="fixed right-4 top-4 md:right-8 md:top-4 z-40">
 
         <button
           onClick={() => handleCardClick({ action: 'Attendify', protected: true })}
           aria-label="Open Attendance"
           className="flex items-center justify-center transition-all duration-300 hover:scale-110 focus:outline-none rounded-full"
         >
-          <AttendanceIcon size={110} />
+          <AttendanceIcon />
         </button>
       </div>
 

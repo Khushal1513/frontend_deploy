@@ -18,6 +18,14 @@ const CreateDiscussion = ({ userData, isLoggedIn }) => {
   
   const navigate = useNavigate();
 
+  // Auto-resize helper for the large content textarea
+  const autoResize = (el, max = 600) => {
+    if (!el) return;
+    el.style.height = 'auto';
+    const h = Math.min(el.scrollHeight, max);
+    el.style.height = h + 'px';
+  };
+
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
     const validFiles = selectedFiles.filter(file => {
@@ -63,7 +71,7 @@ const CreateDiscussion = ({ userData, isLoggedIn }) => {
     console.log('🔑 Token preview:', token.substring(0, 20) + '...');
     
     // Get backend URL
-    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001/api';
+    const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5001';
     
     for (let i = 0; i < files.length; i++) {
       try {
@@ -76,7 +84,7 @@ const CreateDiscussion = ({ userData, isLoggedIn }) => {
         console.log(`📤 Uploading ${i + 1}/${files.length}:`, files[i].name);
         
         // Upload to your backend
-        const response = await fetch(`${API_URL}/upload`, {
+        const response = await fetch(`${API_URL}/api/upload`, {
           method: 'POST',
           headers: {
             'Authorization': `Bearer ${token}`
@@ -264,9 +272,9 @@ const CreateDiscussion = ({ userData, isLoggedIn }) => {
           <textarea
             id="content"
             value={content}
-            onChange={(e) => setContent(e.target.value)}
+            onChange={(e) => { setContent(e.target.value); autoResize(e.target); }}
+            onInput={(e) => autoResize(e.target)}
             placeholder="Write your discussion content... (Markdown supported)"
-            rows={12}
             maxLength={50000}
             required
             disabled={submitting}

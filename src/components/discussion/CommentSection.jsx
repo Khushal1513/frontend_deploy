@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { commentAPI } from '../../services/discussionAPI';
 import './CommentSection.css';
 
+// Auto-resize helper: set element height to match content up to a max
+function autoResizeTextarea(el, maxHeight = 320) {
+  if (!el) return;
+  el.style.height = 'auto';
+  const newHeight = Math.min(el.scrollHeight, maxHeight);
+  el.style.height = newHeight + 'px';
+}
+
 const Comment = ({ comment, onReply, onEdit, onDelete, currentUser, depth = 0 }) => {
   const [isReplying, setIsReplying] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -49,7 +57,8 @@ const Comment = ({ comment, onReply, onEdit, onDelete, currentUser, depth = 0 })
         <div className="comment-edit-form">
           <textarea
             value={editContent}
-            onChange={(e) => setEditContent(e.target.value)}
+            onChange={(e) => { setEditContent(e.target.value); autoResizeTextarea(e.target, 260); }}
+            onInput={(e) => autoResizeTextarea(e.target, 260)}
           />
           <div className="edit-actions">
             <button className="cancel-btn" onClick={() => setIsEditing(false)}>Cancel</button>
@@ -75,7 +84,8 @@ const Comment = ({ comment, onReply, onEdit, onDelete, currentUser, depth = 0 })
         <div className="reply-form">
           <textarea
             value={replyContent}
-            onChange={(e) => setReplyContent(e.target.value)}
+            onChange={(e) => { setReplyContent(e.target.value); autoResizeTextarea(e.target, 260); }}
+            onInput={(e) => autoResizeTextarea(e.target, 260)}
             placeholder={`Replying to ${comment.author?.displayName || 'user'}...`}
           />
           <div className="reply-actions">
@@ -130,7 +140,8 @@ const CommentSection = ({ discussionId, isLoggedIn, userData }) => {
           <textarea
             className="comment-textarea"
             value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
+            onChange={(e) => { setNewComment(e.target.value); autoResizeTextarea(e.target); }}
+            onInput={(e) => autoResizeTextarea(e.target)}
             placeholder="Write a comment..."
           />
           <button

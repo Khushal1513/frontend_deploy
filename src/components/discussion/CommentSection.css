@@ -27,11 +27,13 @@
 
 .comment-textarea {
   width: 100%;
-  padding: 12px;
+  padding: 10px 12px;
   border: 1px solid #ddd;
   border-radius: 6px;
-  resize: vertical;
-  min-height: 100px;
+  resize: none; /* we'll auto-resize via JS */
+  min-height: 40px; /* start smaller */
+  max-height: 320px; /* cap height and allow scroll beyond */
+  overflow-y: auto;
   font-size: 14px;
   transition: border-color 0.3s, box-shadow 0.3s;
 }
@@ -231,10 +233,13 @@
 .comment-edit-form textarea,
 .reply-form textarea {
   width: 100%;
-  min-height: 70px;
+  min-height: 56px;
   padding: 10px;
   border-radius: 6px;
   border: 1px solid #ddd;
+  resize: none;
+  max-height: 260px;
+  overflow-y: auto;
 }
 
 /* Cancel button */
