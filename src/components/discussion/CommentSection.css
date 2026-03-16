@@ -1,0 +1,262 @@
+/* ========================= */
+/* Comment Section           */
+/* ========================= */
+.comment-section {
+  margin-top: 40px;
+  padding: 30px 20px;
+  border-top: 1px solid #ddd;
+  background-color: #fdfdfd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.comment-section-title {
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 25px;
+  color: #333;
+  text-align: center;
+}
+
+/* ========================= */
+/* Add Comment Form          */
+/* ========================= */
+.add-comment-form {
+  margin-bottom: 30px;
+}
+
+.comment-textarea {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  resize: vertical;
+  min-height: 100px;
+  font-size: 14px;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.comment-textarea:focus {
+  outline: none;
+  border-color: #F4B306;
+  box-shadow: 0 0 4px rgba(244, 179, 6, 0.3);
+}
+
+/* ========================= */
+/* Buttons (Post / Reply / Save) */
+/* ========================= */
+.submit-btn,
+.submit-comment-btn,
+.save-btn {
+  background-color: #F4B306;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+
+  /* IMPORTANT FIXES */
+  appearance: none;
+  -webkit-appearance: none;
+  outline: none;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Hover */
+.submit-btn:hover,
+.submit-comment-btn:hover,
+.save-btn:hover {
+  background-color: #d99903;
+}
+
+/* Active (Pressed) - CHANGED TO DARK YELLOW */
+.submit-btn:active,
+.submit-comment-btn:active,
+.save-btn:active {
+  background-color: #c88a02;
+  transform: scale(0.97);
+  color: #fff;
+}
+
+/* Focus (Keyboard / Tap) - CHANGED TO DARK YELLOW */
+.submit-btn:focus,
+.submit-comment-btn:focus,
+.save-btn:focus,
+.submit-btn:focus-visible,
+.submit-comment-btn:focus-visible,
+.save-btn:focus-visible {
+  background-color: #c88a02;
+  box-shadow: 0 0 0 3px rgba(244, 179, 6, 0.35);
+  color: #fff;
+}
+
+/* Disabled */
+.submit-btn:disabled,
+.submit-comment-btn:disabled,
+.save-btn:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+/* ========================= */
+/* Comments List             */
+/* ========================= */
+.comments-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.comment {
+  padding: 15px 20px;
+  border-radius: 8px;
+  transition: background-color 0.3s;
+}
+
+.comment:hover {
+  background-color: #f0f0f0;
+}
+
+/* ========================= */
+/* Nested replies            */
+/* ========================= */
+.comment-reply {
+  margin-top: 10px;
+}
+
+.comment-replies {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+/* ========================= */
+/* Comment Header            */
+/* ========================= */
+.comment-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.comment-author {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.comment-avatar,
+.comment-avatar-placeholder {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+}
+
+.comment-avatar-placeholder {
+  background: #F4B306;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.comment-author-name {
+  font-weight: 600;
+  color: #333;
+}
+
+.comment-date {
+  font-size: 12px;
+  color: #777;
+  margin-left: 6px;
+}
+
+/* ========================= */
+/* Comment Body + Reply      */
+/* ========================= */
+.comment-content-row {
+  display: inline;
+}
+
+.comment-content {
+  display: inline;
+  color: #444;
+  line-height: 1.5;
+}
+
+.reply-inline-btn {
+  background: none;
+  border: none;
+  margin-left: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #F4B306;
+  cursor: pointer;
+}
+
+/* ========================= */
+/* Actions                   */
+/* ========================= */
+.comment-actions,
+.edit-actions,
+.reply-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.action-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  color: #F4B306;
+}
+
+.action-btn.delete {
+  color: #c62828;
+}
+
+/* ========================= */
+/* Edit / Reply Forms        */
+/* ========================= */
+.comment-edit-form textarea,
+.reply-form textarea {
+  width: 100%;
+  min-height: 70px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ddd;
+}
+
+/* Cancel button */
+.cancel-btn {
+  background: #fff;
+  border: 1px solid #ccc;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.cancel-btn:hover {
+  background-color: #f5f5f5;
+}
+
+/* ========================= */
+/* Responsive                */
+/* ========================= */
+@media (max-width: 768px) {
+  .comment-content-row {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+}
