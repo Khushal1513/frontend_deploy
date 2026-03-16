@@ -309,13 +309,26 @@ const styles = `
     font-size: 1.3rem;
   }
   
-  .avatar-img {
-    width: 60px;
-    height: 60px;
-  }
-}
-
-/* Accessibility Improvements */
+    .avatar-img{
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid var(--accent);
+      display: block;
+    }
+    .avatar-fallback{
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: var(--brown, #fff);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 26px;
+    }
 .contact-btn:focus {
   outline: 2px solid var(--accent);
   outline-offset: 2px;
@@ -347,6 +360,7 @@ const styles = `
 
 const SeniorsProfiles = () => {
   const [expandedCards, setExpandedCards] = useState(new Set());
+  const [avatarLoaded, setAvatarLoaded] = useState({});
 
   const seniorsData = [
     {
@@ -360,7 +374,7 @@ const SeniorsProfiles = () => {
       bio: "Passionate about helping young minds discover the beauty of literature. Available for mentoring and academic guidance.",
       email: "bhaskarbhaskr09@gmail.com",
       linkedin: "https://www.linkedin.com/in/bhaskara-88aa76322",
-      avatar: "https://media.licdn.com/dms/image/v2/D4D03AQFesFldH12gcg/profile-displayphoto-shrink_400_400/B4DZcI1agTGkAg-/0/1748199910403?e=1767830400&v=beta&t=UKAB46aUZb1mnECyBRAIfT9IFDHKYpqpVMnSaqGECFg",
+      avatar: "/team/bhaskara.jpg",
       location: "Mysore",
       availability: "Available for guidance"
     },
@@ -392,7 +406,22 @@ const SeniorsProfiles = () => {
                   <div className="flip-card-front">
                     <div className="profile-header">
                       <div className="profile-avatar">
-                        <img src={senior.avatar} alt={senior.name} className="avatar-img" />
+                        <img
+                          src={senior.avatar}
+                          alt={senior.name}
+                          className="avatar-img"
+                          onLoad={() => setAvatarLoaded(prev => ({ ...prev, [senior.id]: true }))}
+                          onError={(e) => {
+                            setAvatarLoaded(prev => ({ ...prev, [senior.id]: false }));
+                            try { e.currentTarget.style.display = 'none'; } catch (err) { e.target.style.display = 'none'; }
+                          }}
+                        />
+                        <div
+                          className="avatar-fallback"
+                          style={{ display: avatarLoaded[senior.id] ? 'none' : 'flex' }}
+                        >
+                          {(senior.name || 'A').charAt(0)}
+                        </div>
                       </div>
                       <div className="profile-info">
                         <h3 className="profile-name">{senior.name}</h3>
