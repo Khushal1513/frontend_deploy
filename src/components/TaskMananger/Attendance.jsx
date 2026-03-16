@@ -31,23 +31,7 @@ const Attendance = ({user}) => {
   const userId = user?.id || user?.uid || user?._id;
 
   const [subjects, setSubjects] = useState([]);
-  const [targetPercentage, setTargetPercentage] = useState(() => {
-    try {
-      const stored = localStorage.getItem('attendanceTarget');
-      return stored !== null ? Number(stored) : 75;
-    } catch (err) {
-      return 75;
-    }
-  });
-
-  // Persist target to localStorage when changed
-  useEffect(() => {
-    try {
-      localStorage.setItem('attendanceTarget', String(targetPercentage));
-    } catch (err) {
-      // ignore storage errors
-    }
-  }, [targetPercentage]);
+  const [targetPercentage, setTargetPercentage] = useState("75");
   const [newSubjectName, setNewSubjectName] = useState('');
   const [showHistoryFor, setShowHistoryFor] = useState(null);
   const [historyFilter, setHistoryFilter] = useState('all');
@@ -71,7 +55,7 @@ const Attendance = ({user}) => {
     try {
       
       // Fetch all subjects (including empty ones)
-      const summaryRes = await fetch(`http://localhost:5001/api/attendance/${userId}/summary`, {
+      const summaryRes = await fetch(`https://acadmate.acadmate.eu/api/attendance/${userId}/summary`, {
         credentials: "include",
       });
       
@@ -83,7 +67,7 @@ const Attendance = ({user}) => {
       const summary = await summaryRes.json();
       
       // Fetch attendance records
-      const recordsRes = await fetch(`http://localhost:5001/api/attendance/${userId}`, {
+      const recordsRes = await fetch(`https://acadmate.acadmate.eu/api/attendance/${userId}`, {
         credentials: "include",
       });
 
@@ -150,7 +134,7 @@ const Attendance = ({user}) => {
     }
 
     try {
-      const res = await fetch(`http://localhost:5001/api/attendance/subject/add`, {
+      const res = await fetch(`https://acadmate.acadmate.eu/api/attendance/subject/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -181,7 +165,7 @@ const Attendance = ({user}) => {
     setIsDeleting(true);
 
     try {
-      const url = `http://localhost:5001/api/attendance/subject/${userId}/${encodeURIComponent(subject.name)}`;
+      const url = `https://acadmate.acadmate.eu/api/attendance/subject/${userId}/${encodeURIComponent(subject.name)}`;
       
       const response = await fetch(url, {
         method: "DELETE",
@@ -227,7 +211,7 @@ const Attendance = ({user}) => {
     setIsMarkingAttendance(true);
 
     try {
-      const res = await fetch(`http://localhost:5001/api/attendance/mark`, {
+      const res = await fetch(`https://acadmate.acadmate.eu/api/attendance/mark`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -291,7 +275,7 @@ const Attendance = ({user}) => {
 
     try {
       const res = await fetch(
-        `http://localhost:5001/api/attendance/record/${userId}/${encodeURIComponent(subject.name)}/${selectedDate}`,
+        `https://acadmate.acadmate.eu/api/attendance/record/${userId}/${encodeURIComponent(subject.name)}/${selectedDate}`,
         {
           method: "DELETE",
           credentials: "include",
@@ -354,27 +338,18 @@ const getFilteredHistory = (attendance = []) => {
               type="number"
               value={targetPercentage}
               onChange={(e) => {
-                const raw = e.target.value;
-                // Allow empty input but keep state as number (fallback to 0)
-                if (/^\d*$/.test(raw)) {
-                  const parsed = raw === '' ? 0 : parseInt(raw, 10);
-                  setTargetPercentage(isNaN(parsed) ? 0 : parsed);
-                }
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') {
-                  e.preventDefault();
-                  // trigger blur behavior to clamp & persist
-                  try { e.currentTarget.blur(); } catch (err) { e.target.blur(); }
-                }
-              }}
-              onBlur={() => {
-                let val = Number(targetPercentage || 0);
-                if (isNaN(val)) val = 0;
-                if (val > 100) val = 100;
-                if (val < 0) val = 0;
-                setTargetPercentage(Math.round(val));
-              }}
+  const value = e.target.value;
+  if (/^\d*$/.test(value)) {
+    setTargetPercentage(value);
+  }
+}}
+onBlur={() => {
+  let val = parseInt(targetPercentage || "0", 10);
+  if (val > 100) val = 100;
+  if (val < 0) val = 0;
+  setTargetPercentage(String(val));
+}}
+
               min="0"
               max="100"
               className="target-input"
